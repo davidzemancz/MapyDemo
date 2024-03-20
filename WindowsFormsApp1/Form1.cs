@@ -40,6 +40,7 @@ namespace WindowsFormsApp1
             stringBuilder.AppendLine("<body>");
             stringBuilder.AppendLine("<div id='mapa' style='width:600px; height:400px;'></div>");
             stringBuilder.AppendLine("<script type='text/javascript'>");
+            stringBuilder.AppendLine("alert(navigator.userAgent);");
             stringBuilder.AppendLine("var stred = SMap.Coords.fromWGS84(14.41, 50.08);");
             stringBuilder.AppendLine("var mapa = new SMap(document.querySelector('#mapa'), stred, 10);");
             stringBuilder.AppendLine("mapa.addDefaultLayer(SMap.DEF_BASE).enable();");
