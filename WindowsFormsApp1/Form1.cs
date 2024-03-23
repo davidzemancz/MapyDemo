@@ -26,39 +26,50 @@ namespace WindowsFormsApp1
 
             chromiumBrowser = new ChromiumWebBrowser();
             chromiumBrowser.Dock = DockStyle.Fill;
-            tableLayoutPanel1.Controls.Add(chromiumBrowser, 1, 1);
+            //tableLayoutPanel1.Controls.Add(chromiumBrowser, 1, 1);
         }
         private void Form1_Load(object sender, EventArgs e)
         {
 
-            StringBuilder stringBuilder = new StringBuilder();
-            stringBuilder.AppendLine("<!doctype html>");
-            stringBuilder.AppendLine("<html>");
-            stringBuilder.AppendLine("<head>");
-            stringBuilder.AppendLine("<meta http-equiv='X-UA-Compatible' content='IE=11'>");
-            stringBuilder.AppendLine("<script src='https://api.mapy.cz/loader.js'></script>");
-            stringBuilder.AppendLine("<script>");
-            stringBuilder.AppendLine("try{");
-            stringBuilder.AppendLine("Loader.load(null, {suggest:true, poi:true, mode: 'multi'});");
-            stringBuilder.AppendLine("external.log('cus');");
-            stringBuilder.AppendLine("} catch(ex) { external.log('chyba');  }");
-            stringBuilder.AppendLine("</script>");
-            stringBuilder.AppendLine("</head>");
-            //stringBuilder.AppendLine("<body>");
-            //stringBuilder.AppendLine("<div id='mapa' style='width:600px; height:400px;'></div>");
-            //stringBuilder.AppendLine("<script type='text/javascript'>");
-            //stringBuilder.AppendLine("alert([1,2].includes(1));");
-            //stringBuilder.AppendLine("var stred = SMap.Coords.fromWGS84(14.41, 50.08);");
-            //stringBuilder.AppendLine("var mapa = new SMap(document.querySelector('#mapa'), stred, 10);");
-            //stringBuilder.AppendLine("mapa.addDefaultLayer(SMap.DEF_BASE).enable();");
-            //stringBuilder.AppendLine("</script>");
-            //stringBuilder.AppendLine("</body>");
-            stringBuilder.AppendLine("</html>");
+            string testJsDir = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "mapycz_IEsupport.js");
 
-            string htmlString = stringBuilder.ToString();
+            StringBuilder htmlBuilder = new StringBuilder();
 
-            webBrowser1.ObjectForScripting = new MyLog();
+            htmlBuilder.AppendLine("<!DOCTYPE html>");
+            htmlBuilder.AppendLine("<html>");
+            htmlBuilder.AppendLine("<head>");
+            htmlBuilder.AppendLine("  <meta http-equiv='X-UA-Compatible' content='IE=11'>");
+            htmlBuilder.AppendLine("  <meta charset='utf-8' />");
+            htmlBuilder.AppendLine("  <script type='text/javascript' src='https://api.mapy.cz/loader.js'></script>");
+            htmlBuilder.AppendLine("  <script type='text/javascript' src='https://api.mapy.cz/virtual-key.js'></script>");
+            htmlBuilder.AppendLine("  <link rel='stylesheet' type='text/css' href='https://api.mapy.cz/css/api/v4/smap-jak.css' />");
+            htmlBuilder.AppendLine("  <link rel='stylesheet' type='text/css' href='https://api.mapy.cz/css/api/v4/poi.css' />");
+            htmlBuilder.AppendLine("  <link rel='stylesheet' type='text/css' href='https://api.mapy.cz/css/api/v4/suggest.css' />");
+            htmlBuilder.AppendLine($"  <script type='text/javascript' src='{testJsDir}'></script>");
+            htmlBuilder.AppendLine("  <script type='text/javascript' src='https://api.mapy.cz/config.js'></script>");
+            htmlBuilder.AppendLine("  <script type='text/javascript' src='https://api.mapy.cz/js/api/v4/poi.js'></script>");
+            htmlBuilder.AppendLine("  <script type='text/javascript' src='https://api.mapy.cz/js/api/v4/suggest.js'></script>");
+            htmlBuilder.AppendLine("  <script type='text/javascript' src='https://api.mapy.cz/js/lang/cs.js'></script>");
+            htmlBuilder.AppendLine("  <script type='text/javascript'>");
+            htmlBuilder.AppendLine("    Loader.load(null, {suggest: true, poi: true});");
+            htmlBuilder.AppendLine("  </script>");
+            htmlBuilder.AppendLine("</head>");
+            htmlBuilder.AppendLine("<body>");
+            htmlBuilder.AppendLine("  <div id='mapa' style='width:600px;height:300px;'></div>");
+            htmlBuilder.AppendLine("  <script>");
+            htmlBuilder.AppendLine("    var stred = SMap.Coords.fromWGS84(16.54, 49.02);");
+            htmlBuilder.AppendLine("    var mapa = new SMap(document.querySelector('#mapa'), stred, 7);");
+            htmlBuilder.AppendLine("    mapa.addDefaultLayer(SMap.DEF_BASE).enable();");
+            htmlBuilder.AppendLine("  </script>");
+            htmlBuilder.AppendLine("</body>");
+            htmlBuilder.AppendLine("</html>");
+
+            string htmlString = htmlBuilder.ToString();
+
+
+            //webBrowser1.ObjectForScripting = new MyLog();
             webBrowser1.DocumentText = htmlString;
+            
             //chromiumBrowser.LoadHtml(htmlString);
 
 
